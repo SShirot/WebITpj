@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import WhiteBoard from "../../src/components/Whiteboard";
 import "./index.css";
 const RoomPage =() => {
-    const [tool, setTool] = useState("pencil")
-    const [color, setColor] = useState("black")
+    const [tool, setTool] = useState("pencil");
+    const [color, setColor] = useState("black");
+    const [elements, setElements] = useState([]);
+    const canvasRef = useRef(null);
+    const ctxRef = useRef(null);
     return (
         <div className="row">
             <h1 className="text-center py-4">White Board Sharing App
@@ -13,38 +16,38 @@ const RoomPage =() => {
                 <div className="d-flex col-md-2 justify-content-center gap-1">
                     <div className="d-flex gap-1 align-items-center">
                         <label htmlFor="pencil">Pencil</label>
-                        <input 
-                            type="radio" 
-                            name="tool" 
-                            value="pencil" 
-                            checked={tool == "pencil"}
+                        <input
+                            type="radio"
+                            name="tool"
+                            value="pencil"
+                            checked={tool === "pencil"}
                             placeholder="pencil"
                             className="mt-1"
-                            onChange={(e) => setTool(e.target.value)} 
+                            onChange={(e) => setTool(e.target.value)}
                         />
                     </div>
                     <div className="d-flex gap-1 align-items-center">
                         <label htmlFor="line">line</label>
-                        <input 
-                            type="radio" 
-                            name="tool" 
-                            value="line" 
-                            checked={tool == "line"}
+                        <input
+                            type="radio"
+                            name="tool"
+                            value="line"
+                            checked={tool === "line"}
                             placeholder="line"
                             className="mt-1"
-                            onChange={(e) => setTool(e.target.value)} 
+                            onChange={(e) => setTool(e.target.value)}
                         />
                     </div>
                     <div className="d-flex gap-1 align-items-center">
                         <label htmlFor="rect">rect</label>
-                        <input 
-                            type="radio" 
-                            name="tool" 
+                        <input
+                            type="radio"
+                            name="tool"
                             value="rect"
-                            checked={tool == "rect"} 
+                            checked={tool === "rect"}
                             placeholder="rect"
                             className="mt-1"
-                            onChange={(e) => setTool(e.target.value)} 
+                            onChange={(e) => setTool(e.target.value)}
                         />
                     </div>
                 </div>
@@ -69,7 +72,11 @@ const RoomPage =() => {
                 </div>
             </div>
             <div className="col-md-10 mx-auto mt-4 canvas-box">
-                <WhiteBoard/>
+                <WhiteBoard
+                canvasRef={canvasRef}
+                ctxRef={ctxRef}
+                elements={elements}
+                setElements={setElements}/>
             </div>
         </div>
     )
