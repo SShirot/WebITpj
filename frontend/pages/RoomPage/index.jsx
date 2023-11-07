@@ -76,7 +76,9 @@ const RoomPage =() => {
                 canvasRef={canvasRef}
                 ctxRef={ctxRef}
                 elements={elements}
-                setElements={setElements}/>
+                setElements={setElements}
+                tool ={tool}
+            />
             </div>
         </div>
     )
