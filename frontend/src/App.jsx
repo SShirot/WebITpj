@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import io from "socket.io-client";
-import RoomPage from '../pages/RoomPage';
+import RoomPage from '../../frontend/src/pages/RoomPage';
 import './App.css';
 import Forms from './components/Forms';
 const server ="http://localhost:5000";
@@ -52,7 +52,7 @@ const App = () => {
       <div className="container">
         <Routes>
           <Route path="/" element={<Forms uuid={uuid} socket={socket} setUser={setUser}/>} />
-          <Route path="/:roomId" element={<RoomPage/>} />
+          <Route path="/:roomId" element={<RoomPage  socket = {socket} user={user}/>} />
         </Routes>
       </div>
     </>
