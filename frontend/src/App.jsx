@@ -18,16 +18,23 @@ const socket = io(server,connectionOptions);
 const App = () => {
 
   const [user,setUser] = useState(null);
+  const [users, setUsers] = useState([]);
   useEffect(() => {
-    socket.on("userJoined",(data)=>{
+    socket.on("userIsJoined",(data)=>{
       if(data.success){
         console.log("userJoined");
+        setUsers(data.users);
       }
       else{
         console.log("userJoined Error");
       }
     })
-  })
+    
+    socket.on("allUsers", (data) => {
+      setUsers(data);
+    })
+
+  },[]);
   const uuid =() => {
     let S4 = () => {
       return (((1+ Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -52,7 +59,7 @@ const App = () => {
       <div className="container">
         <Routes>
           <Route path="/" element={<Forms uuid={uuid} socket={socket} setUser={setUser}/>} />
-          <Route path="/:roomId" element={<RoomPage  socket = {socket} user={user}/>} />
+          <Route path="/:roomId" element={<RoomPage  socket = {socket} user={user} users = {users}/>} />
         </Routes>
       </div>
     </>

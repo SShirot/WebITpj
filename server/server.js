@@ -5,6 +5,9 @@ const server = require("http").createServer(app);
 // const io = require("socket.io")(server);
 const { Server } =require("socket.io");
 
+const {addUser} = require("./utils/users");
+
+
 const io = new Server(server);
 
 //routes
@@ -19,7 +22,9 @@ io.on("connection",(socket)=>{
         const {name,userID,roomId,host,presenter} =data;
         roomIdGlobal = roomId;
         socket.join(roomId);
-        socket.emit("userIsJoined", {success:true});
+        const users = addUser(data);
+        socket.emit("userIsJoined", {success:true , users});
+        socket.broadcast.to(roomId).emit("allUsers", users);
         socket.broadcast.to(roomId).emit("whiteBoardDataResponse",{
             imgURL : imgURLGlobal,
         });
