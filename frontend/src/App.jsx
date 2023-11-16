@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import io from "socket.io-client";
 import RoomPage from '../../frontend/src/pages/RoomPage';
 import './App.css';
@@ -33,6 +34,15 @@ const App = () => {
     socket.on("allUsers", (data) => {
       setUsers(data);
     })
+    socket.on("userJoinedMessageBroadcasted", (data) => {
+      console.log(`${data} joined the room `);
+      toast.info(`${data} joined the room `);
+    })
+
+    socket.on("userLeftMessageBroadcasted", (data) => {
+      console.log(`${data} left the room `);
+      toast.info(`${data} left the room `);
+    })
 
   },[]);
   const uuid =() => {
@@ -57,6 +67,7 @@ const App = () => {
   return (
     <>
       <div className="container">
+        <ToastContainer/>
         <Routes>
           <Route path="/" element={<Forms uuid={uuid} socket={socket} setUser={setUser}/>} />
           <Route path="/:roomId" element={<RoomPage  socket = {socket} user={user} users = {users}/>} />

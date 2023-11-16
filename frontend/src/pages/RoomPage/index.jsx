@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import Chat from "../../components/ChatBar";
 import WhiteBoard from "../../components/Whiteboard";
 import "./index.css";
 const RoomPage =({user, socket, users }) => {
@@ -7,8 +8,11 @@ const RoomPage =({user, socket, users }) => {
     const [elements, setElements] = useState([]);
     const [history, setHistory] = useState([]);
     const [openedUserTab, setOpenedUserTab] = useState(false);
+    const [openedChatTab, setOpenedChatTab] = useState(false);
     const canvasRef = useRef(null);
     const ctxRef = useRef(null);
+
+
     const handleClearCanvas =() => {
         const canvas =canvasRef.current;
         const ctx = canvas.getContext("2d");
@@ -35,13 +39,26 @@ const RoomPage =({user, socket, users }) => {
                     display: "block",
                     position : "absolute",
                     top : "5%",
-                    left : "5%",
+                    left : "3%",
                     height:"40px",
                     width : "100px",
                 }}
                 onClick = {()=>setOpenedUserTab(true)}
             >
                 Users
+            </button>
+            <button type="button" className="btn btn-primary"
+                style={{
+                    display: "block",
+                    position : "absolute",
+                    top : "5%",
+                    left : "10%",
+                    height:"40px",
+                    width : "100px",
+                }}
+                onClick = {()=>setOpenedChatTab(true)}
+            >
+                Chats
             </button>
             {
             openedUserTab &&(
@@ -62,6 +79,9 @@ const RoomPage =({user, socket, users }) => {
                     </div>
                 </div>
             )}
+            {
+                openedChatTab && <Chat  setOpenedChatTab = {setOpenedChatTab} socket={socket}/>
+            }
             <h1 className="text-center py-4">White Board Sharing App
             <span className="text-primary"> [User Online : {users.length}]</span>
             </h1>
