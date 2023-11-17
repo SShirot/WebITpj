@@ -21,7 +21,7 @@ const WhiteBoard = ({canvasRef, ctxRef, elements, setElements,tool,color,user,so
                     //className="w-100 h-100"
                     style={{
                         height: window.innerHeight*2,
-                        width : "285%",
+                        width : window.innerHeight*2,
                     }}
                 />
             </div>
